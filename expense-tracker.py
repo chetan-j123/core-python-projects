@@ -36,3 +36,4 @@ if(useropinion1=="yes"):
  if(useropinion2=="day"):
   useropinion3=str(input("enter the date = "))
   
+
