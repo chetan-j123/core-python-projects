@@ -1,39 +1,73 @@
-def temp(date):
- file=open("csv.txt",a)
- file.write(date)
- category=str(input("where you  spend the money (like on food, on bike)"))
- amount=str(input("how much you have spended on this="))
- note=str(input("plz enter a note for this expense or explain where you spended money"))
- file.write("\t\t\t\t\t"+category)
- file.write("\t\t\t\t\t\t\t"+amount)
- file.write("\t\t\t\t\t\t"+note)
- file.close()
+def noting(date, category, amount, note):
+    with open("expensetracker.txt", "a") as file:
+        file.write(f"{date},{category},{amount},{note}\n")
 
-print("welcome to the expense traacker app")
-print("before starts this app eneter your necessary detaails")
-date=str(input("enter the date of your expense "))
-category=str(input("where you  spend the money (like on food, on bike)"))
-amount=str(input("how much you have spended on this="))
-note=str(input("plz enter a note for this expense or explain where you spended money"))
-def saver():
- file=open("csv.txt","a")
- file.write("\n")
- file.write(date)
- file.write("\t\t\t\t\t"+category)
- file.write("\t\t\t\t\t\t\t"+amount)
- file.write("\t\t\t\t\t\t"+note)
- print("expense details added")
- useropinion=str(input(f"do you want to add more expenses for date {date}(type samedate) or wwant to add new day(type new) expesnse"))
- if(useropinion=="sameday"):
-  temp(date)
- elif(useropinion=="new"):
-  saver()
+def main():
+    print("=================== Expense Tracker App ===============")
+    print("1. Add expense") 
+    print("2. View expense by date")
+    print("3. View expense by category")
+    print("4. Show all expenses")
+    print("5. Exit")
 
- file.close()
-useropinion1=str(input("do you want total exxpense analysis(type yes or no)"))
-if(useropinion1=="yes"):
- useropinion2=str(input("do you want total exxpense analysis for a day or week or month"))
- if(useropinion2=="day"):
-  useropinion3=str(input("enter the date = "))
+    userchoice = input("Enter the choice= ")
+
+    # ---------- Add Expense ----------
+    if userchoice == "1":
+        date = input("Enter the date= ")
+        category = input("Enter the category of expense= ")
+        amount = input("Enter the amount= ")
+        note = input("Enter the note= ")
+        noting(date, category, amount, note)
+        print("✅ Expense added successfully!")
+        main()
+
+    # ---------- Load File Data ----------
+    try:
+        with open("expensetracker.txt", "r") as file:
+            lines = [line.strip().split(",") for line in file if line.strip()]
+    except FileNotFoundError:
+        lines = []
+
+    # ---------- View by Date ----------
+    if userchoice == "2":
+        date = input("Enter the date= ")
+        found = False
+        for row in lines:
+            if row[0] == date:
+                print("Expense found:", row)
+                found = True
+        if not found:
+            print("❌ No expenses found for date =", date)
+        main()
+
+    # ---------- View by Category ----------
+    if userchoice == "3":
+        cate = input("Enter the category (food, bike, car, etc)= ")
+        found = False
+        for row in lines:
+            if row[1] == cate:
+                print("Expense found:", row)
+                found = True
+        if not found:
+            print("❌ No expenses found for category =", cate)
+        main()
+
+    # ---------- Show All Expenses ----------
+    if userchoice == "4":
+        if not lines:
+            print("No expenses recorded yet.")
+        else:
+            for row in lines:
+                print(row)
+        main()
+
+    # ---------- Exit ----------
+    if userchoice == "5":
+        print("👋 Exiting... Goodbye!")
+
+main()
+
   
+
 
