@@ -7,7 +7,6 @@ def add_new_product(date, product, quantity, price):
 def product_total_sales(product):
     with open("salesdata.txt", "r") as file:
         lines = file.readlines()
-
     total_sales = 0
     found = False
     for i in range(1, len(lines)):
@@ -159,3 +158,4 @@ while True:
 
     else:
         print("Invalid choice. Please try again.")
+
